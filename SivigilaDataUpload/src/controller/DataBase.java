@@ -5,6 +5,12 @@
  */
 package controller;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -26,7 +32,7 @@ public class DataBase {
     public DataBase() {
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:SivigitaDataBase.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:SivigilaDataBase.db");
             createOrUpdateDB();
 
         } catch (ClassNotFoundException | SQLException ex) {
@@ -48,16 +54,18 @@ public class DataBase {
         if( connection != null ){
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
-            statement.executeUpdate("drop table if exists person");
-            statement.executeUpdate("create table person (id integer, name string)");
-            statement.executeUpdate("insert into person values(1, 'leo')");
-            statement.executeUpdate("insert into person values(2, 'yui')");
-            ResultSet rs = statement.executeQuery("select * from person");
-            while(rs.next())
-            {
-            System.out.println("name = " + rs.getString("name"));
-            System.out.println("id = " + rs.getInt("id"));
+            String line = "";
+            String data = "";
+            try {
+                BufferedReader r = new BufferedReader(new FileReader(new File("script.txt")));
+                while( (line= r.readLine())!= null )
+                    data+=line;
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             }
+            statement.executeUpdate(data);
         }
     }
     
