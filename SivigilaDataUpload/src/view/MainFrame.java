@@ -5,7 +5,15 @@
  */
 package view;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,7 +33,10 @@ public class MainFrame extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         add(fondo);
-    }
+        
+
+                
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,7 +109,7 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(31, 31, 31)
                 .addComponent(butttonLoadData2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(butttonLoadData1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -106,45 +117,34 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(butttonLoadData, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(butttonLoadData3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 31, Short.MAX_VALUE))
+                .addGap(0, 32, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void butttonLoadDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butttonLoadDataActionPerformed
-        JFileChooser chooser = new JFileChooser();
-
-        int returnVal = chooser.showOpenDialog(null);//que paso con dialogo
-
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-
-            //boolean result = App.loadTable(chooser.getSelectedFile(), model, (String) jcomboTemplates.getSelectedItem(),checkColumnName.isSelected());
-
-            //if(result){
-            //    Color colours[][] = new Color[jtablePreliminar.getRowCount()][jtablePreliminar.getColumnCount()];
-            //    for( int i = 0; i < colours.length; i++ )
-            //    colours[i] = new Color[jtablePreliminar.getColumnCount()];
-            //    App.firstValidate(colours);
-            //    render(colours);
-            //}else{
-            //    JOptionPane.showMessageDialog(null, "El número de columns en el csv es mayor que en la plantilla");
-            //    addColumns();
-            //}
-
-        }
+        
+        this.dispose();
+        FutureEventsFrame frame = new FutureEventsFrame();
+        frame.setVisible(true);
     }//GEN-LAST:event_butttonLoadDataActionPerformed
 
     private void butttonLoadData1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butttonLoadData1ActionPerformed
-        // TODO add your handling code here:
+        
+        this.dispose();
+        GenerateReportsFrame frame = new GenerateReportsFrame();
+        frame.setVisible(true);
     }//GEN-LAST:event_butttonLoadData1ActionPerformed
 
     private void butttonLoadData2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butttonLoadData2ActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        LoadDataFrame frame = new LoadDataFrame();
+        frame.setVisible(true);
     }//GEN-LAST:event_butttonLoadData2ActionPerformed
 
     private void butttonLoadData3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butttonLoadData3ActionPerformed
-        // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_butttonLoadData3ActionPerformed
 
     /**
