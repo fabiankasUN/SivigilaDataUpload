@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package model;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,9 +27,37 @@ import javax.swing.JOptionPane;
  */
 public class DataBase {
 
-    private Connection connection = null;
+    private static Connection connection = null;
 
     public DataBase() {
+
+        if (connection == null) {
+            try {
+                Class.forName("org.sqlite.JDBC");
+                connection = DriverManager.getConnection("jdbc:sqlite:SivigilaDataBase.db");
+                createOrUpdateDB();
+                getConnection().setAutoCommit(false);
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error al conectar :" + ex.getMessage());
+                //Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                /*try {
+                    if (connection != null) {
+                        connection.close();
+                    }
+                } catch (SQLException e) {
+                    // connection close failed.
+                    System.err.println(e);
+                }*/
+            }
+        }
+    }
+
+    public Connection getConnection() {
+        if (connection != null) {
+            return connection;
+        }
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:SivigilaDataBase.db");
@@ -38,28 +66,21 @@ public class DataBase {
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al conectar :" + ex.getMessage());
             //Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                // connection close failed.
-                System.err.println(e);
-            }
         }
+        return connection;
     }
-    
-    private void createOrUpdateDB() throws SQLException{
-        if( connection != null ){
+
+    private void createOrUpdateDB() throws SQLException {
+        if (connection != null) {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
             String line = "";
             String data = "";
             try {
                 BufferedReader r = new BufferedReader(new FileReader(new File("script.txt")));
-                while( (line= r.readLine())!= null )
-                    data+=line;
+                while ((line = r.readLine()) != null) {
+                    data += line;
+                }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -69,7 +90,8 @@ public class DataBase {
         }
     }
     
-    public PreparedStatement statement( String sql ){
+
+    public PreparedStatement statement(String sql) {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
@@ -79,4 +101,16 @@ public class DataBase {
         return statement;
     }
     
+    public void executeQuery( String sql ){
+        try {
+            Statement sta = connection.createStatement();
+            sta.executeQuery(sql);
+            connection.commit();
+
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
+        
+    }
+
 }

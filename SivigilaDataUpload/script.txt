@@ -1,27 +1,31 @@
+
 PRAGMA foreign_keys = 1;
 create table if not exists department(
 	id TEXT primary key not null,
 	name TEXT not null
 );
 create table if not exists town (
-	id TEXT primary key not null,
+	id TEXT  not null,
 	name TEXT not null,
 	id_department TEXT no null,
-	foreign key(id_department) references department(id)
+	foreign key(id_department) references department(id),
+	primary key(id,id_department)
 );
 create table if not exists event (
 	id int primary key not null,
 	name TEXT
 );
-create table if not exists week_data (
+create table if not exists weekdata (
 	week int not null,
 	id_event int  not null,
 	id_town TEXT  not null,
-	year_data date not null,
+	id_department TEXT not null,
+	year_data int not null,
 	amount int not null,
-	primary key(week,id_event,id_town,year_data)
+	primary key(week,id_event,id_town,id_department,year_data),
 	foreign key(id_event) references event(id),
-	foreign key(id_town) references town(id)	
+	foreign key(id_town,id_department) references town(id,id_department)
+
 );
 
 create table if not exists population (
@@ -41,3 +45,5 @@ create table if not exists climatic_p(
 	name TEXT,
 	primary key(id)
 );
+
+select count(*) from town

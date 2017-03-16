@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.App;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -52,7 +53,7 @@ public class LoadDataFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         infoButtom = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        comboYear = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -85,7 +86,7 @@ public class LoadDataFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020" }));
+        comboYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020" }));
 
         jLabel5.setText("Año");
 
@@ -146,7 +147,7 @@ public class LoadDataFrame extends javax.swing.JFrame {
                         .addGap(0, 140, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboYear, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(infoButtom, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -163,7 +164,7 @@ public class LoadDataFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,34 +194,7 @@ public class LoadDataFrame extends javax.swing.JFrame {
         chooser.setFileFilter(filtroImagen);
         int returnVal = chooser.showOpenDialog(null);//que paso con dialogo
         if(returnVal == JFileChooser.APPROVE_OPTION) {
-            
-            try {
-                FileInputStream file = null;
-                file = new FileInputStream(chooser.getSelectedFile());
-                BufferedReader in = new BufferedReader(new FileReader(chooser.getSelectedFile()));
-                
-                String line;
-                while((line = in.readLine())!=null ){
-                    System.out.println(line);
-                }
-                //boolean result = App.loadTable(chooser.getSelectedFile(), model, (String) jcomboTemplates.getSelectedItem(),checkColumnName.isSelected());
-                
-                //if(result){
-                //    Color colours[][] = new Color[jtablePreliminar.getRowCount()][jtablePreliminar.getColumnCount()];
-                //    for( int i = 0; i < colours.length; i++ )
-                //    colours[i] = new Color[jtablePreliminar.getColumnCount()];
-                //    App.firstValidate(colours);
-                //    render(colours);
-                //}else{
-                //    JOptionPane.showMessageDialog(null, "El número de columns en el csv es mayor que en la plantilla");
-                //    addColumns();
-                //}
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            App.loadData(chooser.getSelectedFile(), Integer.parseInt(comboYear.getSelectedItem().toString()));
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -235,11 +209,10 @@ public class LoadDataFrame extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> comboYear;
     private javax.swing.JButton infoButtom;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
