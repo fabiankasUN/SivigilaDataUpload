@@ -13,7 +13,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -73,12 +76,10 @@ public class Model {
     }
 
     public void loadTown() {
-        FileInputStream file = null;
         String idTown = "", id, name;
         String idDep = "";
         try {
             File f = new File("departments.csv");
-            file = new FileInputStream(f);
             BufferedReader in = new BufferedReader(new FileReader(f));
 
             String line;
@@ -86,7 +87,7 @@ public class Model {
             PreparedStatement prepTown = db.statement(prepareInsertTown("town"));
             while ((line = in.readLine()) != null) {
                 String split[] = line.split(";");
-                name = split[1];
+                name = split[0];
                 id = split[2];
                 if (id.length() == 5) {
                     idTown = id.substring(2, 5);
@@ -145,7 +146,7 @@ public class Model {
         }
     }
 
-    public void loadData(File f, int year) {
+    public boolean loadData(File f, int year) {
         loadDepartments();
         loadTown();
 
@@ -230,8 +231,8 @@ public class Model {
             
             data.executeBatch();
             db.getConnection().commit();
-            JOptionPane.showMessageDialog(null, "Subido exitosamente");
-            
+            return true;
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -240,7 +241,72 @@ public class Model {
             System.out.println(departmentCode + " " + townCode);
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        return false;
     }
+    
+    public Object[] years(){
+        Object data[] = null;
+        try {
+            ResultSet set = db.executeSelect("select DISTINCT  year_data from weekdata");
+            ArrayList<Integer> list = new ArrayList<>();
+            while(set.next()){
+                list.add(set.getInt("year_data"));
+            }
+            Collections.sort(list);
+            data = new Object[list.size()];
+            for( int i = 0; i < data.length; i++ ){
+                data[i] = list.get(i);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return data;
+    }
+    
+    public ArrayList<ModelDepartment> getDepartments(){
+        
+        ArrayList<ModelDepartment> list = new ArrayList<ModelDepartment>();
+        try {
+            ResultSet set = db.executeSelect("select * from department");
+            while(set.next()){
+                list.add(new ModelDepartment(set.getString("name"),set.getString("id")));
+            }
+            Collections.sort(list);
+        } catch (SQLException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+     public ArrayList<ModelDepartment> getTowns( String dep ){
+        ArrayList<ModelDepartment> list = new ArrayList<ModelDepartment>();
+        try {
+            ResultSet set = db.executeSelect("select * from town where id_department = '" +
+                    dep + "'");
+            while(set.next()){
+                list.add(new ModelDepartment(set.getString("name"),set.getString("id")));
+            }
+            Collections.sort(list);
+        } catch (SQLException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+     
+     public ArrayList<ModelDepartment> getEvents( ){
+        ArrayList<ModelDepartment> list = new ArrayList<ModelDepartment>();
+        try {
+            ResultSet set = db.executeSelect("select * from event");
+            while(set.next()){
+                list.add(new ModelDepartment(set.getString("name"),set.getString("id")));
+            }
+            Collections.sort(list);
+        } catch (SQLException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    
 
 }

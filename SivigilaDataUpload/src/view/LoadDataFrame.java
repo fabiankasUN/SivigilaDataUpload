@@ -11,11 +11,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -29,18 +32,20 @@ public class LoadDataFrame extends javax.swing.JFrame {
     public LoadDataFrame() {
         initComponents();
         properties();
+        App.loadYears(jList1);
     }
 
-    public void properties(){
-        BackGround fondo=new BackGround(250, 350, "Fondo4.png", 0, 0);
+    public void properties() {
+        BackGround fondo = new BackGround(250, 350, "Fondo4.png", 0, 0);
         setResizable(false);
         setLocationRelativeTo(null);
         add(fondo);
-        
+
         infoButtom.setOpaque(false);
         infoButtom.setContentAreaFilled(false);
         infoButtom.setBorderPainted(false);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,9 +61,9 @@ public class LoadDataFrame extends javax.swing.JFrame {
         comboYear = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jtableLoad = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,31 +103,6 @@ public class LoadDataFrame extends javax.swing.JFrame {
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel4.setOpaque(true);
 
-        jtableLoad.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Año", "Fecha"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(jtableLoad);
-
         jButton4.setText("Regresar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,32 +110,34 @@ public class LoadDataFrame extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane1.setViewportView(jList1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 140, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(comboYear, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(infoButtom, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))))
+            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton4)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 111, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(comboYear, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(28, 28, 28)
+                                .addComponent(infoButtom, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,8 +154,8 @@ public class LoadDataFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -182,19 +164,33 @@ public class LoadDataFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void infoButtomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoButtomActionPerformed
-        JOptionPane.showMessageDialog(null,"Recuerde que para cargar un archivo de"
-            + " la base de datos del sivigila primero debe ser guardado con formato (CSV)");
-        
-        
+        JOptionPane.showMessageDialog(null, "Recuerde que para cargar un archivo de"
+                + " la base de datos del sivigila primero debe ser guardado con formato (CSV)");
+
+
     }//GEN-LAST:event_infoButtomActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filtroImagen=new FileNameExtensionFilter("CSV","CSV","png","gif");
+        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("CSV", "CSV", "png", "gif");
         chooser.setFileFilter(filtroImagen);
         int returnVal = chooser.showOpenDialog(null);//que paso con dialogo
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-            App.loadData(chooser.getSelectedFile(), Integer.parseInt(comboYear.getSelectedItem().toString()));
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            URL url = ClassLoader.getSystemClassLoader().getResource("images/Fondo2.png");
+            ImageIcon image = new ImageIcon(url);
+            int res = JOptionPane.showConfirmDialog(null, "Esta seguro que desea cargar el archivo del"
+                    + "año " + comboYear.getSelectedItem().toString() + "? tenga en cuenta lo siguiente"
+                    + "\n1. Recuerde que el formato debe ser CSV( separado por ';').\n2.Si"
+                    + " existen datos del año " + comboYear.getSelectedItem().toString() + " seran borrados","Informacion"
+            ,JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
+            if (res == JOptionPane.OK_OPTION) {
+                boolean result = App.loadData(chooser.getSelectedFile(), Integer.parseInt(comboYear.getSelectedItem().toString()));
+                if (result) {
+                    JOptionPane.showMessageDialog(null, "Subido exitosamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Se ha generado un error al subir archivo, por favor revise que el formato es correcto");
+                }
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -203,10 +199,7 @@ public class LoadDataFrame extends javax.swing.JFrame {
         MainFrame frame = new MainFrame();
         frame.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
-    
-    
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboYear;
@@ -216,7 +209,7 @@ public class LoadDataFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jtableLoad;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

@@ -11,9 +11,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.ComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
+import javax.swing.JList;
+import javax.swing.table.DefaultTableModel;
 import model.Model;
+import model.ModelDepartment;
 import view.MainFrame;
 
 /**
@@ -53,8 +61,31 @@ public class App {
 
     }
     
-    public static void loadData( File f, int year ){
-        model.loadData(f, year);
+    public static boolean loadData( File f, int year ){
+        return model.loadData(f, year);
     }
+    
+    public static void loadYears( JList list ){
+        list.setListData(model.years());
+    }
+    
+    
+     public static void fillDepartments( JComboBox departments, JComboBox towns, JComboBox events,  JComboBox events2  ){
+        
+        departments.setModel(new DefaultComboBoxModel(model.getDepartments().toArray()));
+        String first = ((ModelDepartment)departments.getSelectedItem()).getValue();
+        towns.setModel(new DefaultComboBoxModel(model.getTowns(first).toArray()));
+        ArrayList<ModelDepartment> mEvents = model.getEvents();
+        events.setModel(new DefaultComboBoxModel(mEvents.toArray()));
+        events2.setModel(new DefaultComboBoxModel(mEvents.toArray()));
+    }
+    
+    public static void fillDepartmentsAndTowns( JComboBox departments, JComboBox towns ){
+        
+        String value = ((ModelDepartment)departments.getSelectedItem()).getValue();
+        towns.setModel(new DefaultComboBoxModel(model.getTowns(value).toArray()));
+        
+    }
+    
     
 }

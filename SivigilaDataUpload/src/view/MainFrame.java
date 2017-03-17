@@ -140,6 +140,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void butttonLoadData2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butttonLoadData2ActionPerformed
         this.dispose();
         LoadDataFrame frame = new LoadDataFrame();
+        
         frame.setVisible(true);
     }//GEN-LAST:event_butttonLoadData2ActionPerformed
 

@@ -89,7 +89,6 @@ public class DataBase {
             statement.executeUpdate(data);
         }
     }
-    
 
     public PreparedStatement statement(String sql) {
         PreparedStatement statement = null;
@@ -100,8 +99,8 @@ public class DataBase {
         }
         return statement;
     }
-    
-    public void executeQuery( String sql ){
+
+    public void executeQuery(String sql) {
         try {
             Statement sta = connection.createStatement();
             sta.executeQuery(sql);
@@ -110,7 +109,18 @@ public class DataBase {
         } catch (SQLException ex) {
             ex.getStackTrace();
         }
-        
+
+    }
+
+    public ResultSet executeSelect(String sql) {
+        try {
+            Statement st = connection.createStatement();
+            return st.executeQuery(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
     }
 
 }
