@@ -38,12 +38,10 @@ create table if not exists population (
 
 );
 create table if not exists climatic_p(
-	id date not null,
+	id int not null,
 	start_date date not null,
 	end_date date not null,
 	type TEXT,
 	name TEXT,
 	primary key(id)
 );
-
-select count(*) from town

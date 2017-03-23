@@ -81,12 +81,13 @@ public class DataBase {
                 while ((line = r.readLine()) != null) {
                     data += line;
                 }
+                 statement.executeUpdate(data);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             }
-            statement.executeUpdate(data);
+           
         }
     }
 

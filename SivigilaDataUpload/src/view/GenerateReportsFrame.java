@@ -6,6 +6,10 @@
 package view;
 
 import controller.App;
+import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import model.ModelDepartment;
 
 /**
  *
@@ -55,6 +59,11 @@ public class GenerateReportsFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Generar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         comboDepartments.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         comboDepartments.addActionListener(new java.awt.event.ActionListener() {
@@ -191,6 +200,34 @@ public class GenerateReportsFrame extends javax.swing.JFrame {
     private void ComboEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboEventsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ComboEventsActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Specify a file to save");   
+        fileChooser.setFileFilter(new FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                return f.getName().toUpperCase().equals(".csv");
+            }
+            @Override
+            public String getDescription() {
+                return "csv";
+            }
+        });
+                
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            fileToSave = new File(fileChooser.getSelectedFile() + ".xls");
+            App.generateSpecificReport((ModelDepartment)comboTowns.getSelectedItem(),
+                    (ModelDepartment)comboDepartments.getSelectedItem(), (ModelDepartment)ComboEvents.getSelectedItem(),
+                    fileToSave);
+            
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -44,7 +44,7 @@ create table if not exists population (
 
 );
 create table if not exists climatic_p(
-	id date not null,
+	id int not null,
 	start_date date not null,
 	end_date date not null,
 	type TEXT,
@@ -52,5 +52,5 @@ create table if not exists climatic_p(
 	primary key(id)
 );
 
-select * from town where id_department = '11'
-select count(*) from weekdata
+--select * from town where id_department = '11'
+--select count(*) from weekdata

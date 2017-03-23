@@ -17,9 +17,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import view.MainFrame;
 
 /**
@@ -29,9 +31,11 @@ import view.MainFrame;
 public class Model {
 
     private DataBase db;
+    private Reports reports;
 
     public Model() {
         db = new DataBase();
+        reports = new Reports(db);
     }
 
     public int countWeeks(String line) {
@@ -306,6 +310,44 @@ public class Model {
         }
         return list;
     }
+     public static void deleteRows( DefaultTableModel tableModel ){
+        while(tableModel.getRowCount() > 0)
+            tableModel.removeRow(0);
+    }
+     public boolean addEvent( String name, String type, String startMonth, String startYear, String
+            endMonth, String endYear, DefaultTableModel model ){
+        
+        return false;
+     }
+     
+     public void showListEvents( DefaultTableModel model ){
+         ArrayList<Climatic> list = new ArrayList<Climatic>();
+        try {
+            ResultSet set = db.executeSelect("select * from climatic_p");
+            //ResultSet set2 = db.executeSelect("select max(id) from climatic_p");
+            //set2.next();
+            //int value = set2.getInt(1);
+            while(set.next()){
+                list.add(new Climatic(set.getInt(1), set.getString(2).toString(), set.getString(3).toString(), set.getString(4), set.getString(5)));
+            }
+            
+            for( int i = 0; i < list.size(); i++ ){
+                Vector v = new Vector();
+                v.add(list.get(i).getId());
+                v.add(list.get(i).getType());
+                v.add(list.get(i).getStartDate());
+                v.add(list.get(i).getEndDate());
+                model.addRow(v);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     }
+     
+     public void generateSpecificReport( ModelDepartment town, ModelDepartment department, ModelDepartment event, File f ){
+         reports.generateSpecificReport(town, department, event, f);
+     }
     
     
 

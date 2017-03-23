@@ -186,6 +186,9 @@ public class LoadDataFrame extends javax.swing.JFrame {
             if (res == JOptionPane.OK_OPTION) {
                 boolean result = App.loadData(chooser.getSelectedFile(), Integer.parseInt(comboYear.getSelectedItem().toString()));
                 if (result) {
+                    this.dispose();
+                    MainFrame frame= new MainFrame();
+                    frame.setVisible(true);
                     JOptionPane.showMessageDialog(null, "Subido exitosamente");
                 } else {
                     JOptionPane.showMessageDialog(null, "Se ha generado un error al subir archivo, por favor revise que el formato es correcto");

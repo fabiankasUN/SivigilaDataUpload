@@ -14,6 +14,11 @@ public class ModelDepartment implements Comparable<ModelDepartment> {
     private String name;
     private String value;
     
+    public ModelDepartment(){
+        this.name = "";
+        this.value = "";
+    }
+    
     public ModelDepartment(String name, String value){
         this.name = name;
         this.value = value;

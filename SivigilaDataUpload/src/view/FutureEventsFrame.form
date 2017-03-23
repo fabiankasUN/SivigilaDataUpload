@@ -28,31 +28,41 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" alignment="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" alignment="0" pref="525" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jComboBox1" alignment="0" min="-2" pref="76" max="-2" attributes="0"/>
+                          <Component id="comboStartMonth" alignment="0" min="-2" pref="76" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="jComboBox4" alignment="0" pref="76" max="32767" attributes="0"/>
+                              <Component id="comboEndMonth" alignment="0" pref="76" max="32767" attributes="0"/>
                               <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel7" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jComboBox3" max="32767" attributes="0"/>
-                          <Component id="jComboBox2" alignment="0" max="32767" attributes="0"/>
+                          <Component id="comboEndYear" max="32767" attributes="0"/>
+                          <Component id="comboStartYear" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabel5" alignment="0" min="-2" pref="82" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="23" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="comboTown" alignment="1" min="-2" pref="83" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="1" min="-2" pref="83" max="-2" attributes="0"/>
-                          <Component id="jLabel4" alignment="1" min="-2" pref="83" max="-2" attributes="0"/>
-                          <Component id="comboTown1" alignment="1" min="-2" pref="83" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel1" alignment="1" min="-2" pref="83" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="1" min="-2" pref="83" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="comboName" alignment="1" min="-2" pref="99" max="-2" attributes="0"/>
+                                  <Component id="comboType" alignment="1" min="-2" pref="95" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jButton1" max="32767" attributes="0"/>
                           <Component id="jButton2" max="32767" attributes="0"/>
@@ -71,33 +81,44 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="jLabel3" min="-2" pref="30" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="comboStartMonth" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboStartYear" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="comboEndMonth" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboEndYear" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="comboType" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="comboName" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="comboTown" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jComboBox4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jComboBox3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="comboTown1" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
               <Component id="jLabel8" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="163" max="-2" attributes="0"/>
@@ -114,7 +135,7 @@
         <Property name="text" type="java.lang.String" value="Tipo"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="comboTown">
+    <Component class="javax.swing.JComboBox" name="comboType">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="2">
@@ -144,20 +165,52 @@
         <Property name="opaque" type="boolean" value="true"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox1">
+    <Component class="javax.swing.JComboBox" name="comboStartMonth">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
+          <StringArray count="12">
+            <StringItem index="0" value="Enero"/>
+            <StringItem index="1" value="Febrero"/>
+            <StringItem index="2" value="Marzo"/>
+            <StringItem index="3" value="Abril"/>
+            <StringItem index="4" value="Mayo"/>
+            <StringItem index="5" value="Junio"/>
+            <StringItem index="6" value="Julio"/>
+            <StringItem index="7" value="Agosto"/>
+            <StringItem index="8" value="Septiembre"/>
+            <StringItem index="9" value="Octubre"/>
+            <StringItem index="10" value="Noviembre"/>
+            <StringItem index="11" value="Diciembre"/>
+          </StringArray>
         </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox2">
+    <Component class="javax.swing.JComboBox" name="comboStartYear">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
+          <StringArray count="18">
+            <StringItem index="0" value="2004"/>
+            <StringItem index="1" value="2005"/>
+            <StringItem index="2" value="2006"/>
+            <StringItem index="3" value="2007"/>
+            <StringItem index="4" value="2008"/>
+            <StringItem index="5" value="2009"/>
+            <StringItem index="6" value="2010"/>
+            <StringItem index="7" value="2011"/>
+            <StringItem index="8" value="2012"/>
+            <StringItem index="9" value="2013"/>
+            <StringItem index="10" value="2014"/>
+            <StringItem index="11" value="2015"/>
+            <StringItem index="12" value="2016"/>
+            <StringItem index="13" value="2017"/>
+            <StringItem index="14" value="2018"/>
+            <StringItem index="15" value="2019"/>
+            <StringItem index="16" value="2020"/>
+            <StringItem index="17" value="2021"/>
+          </StringArray>
         </Property>
       </Properties>
       <AuxValues>
@@ -174,20 +227,52 @@
         <Property name="text" type="java.lang.String" value="A&#xf1;o inicial"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox3">
+    <Component class="javax.swing.JComboBox" name="comboEndYear">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
+          <StringArray count="18">
+            <StringItem index="0" value="2004"/>
+            <StringItem index="1" value="2005"/>
+            <StringItem index="2" value="2006"/>
+            <StringItem index="3" value="2007"/>
+            <StringItem index="4" value="2008"/>
+            <StringItem index="5" value="2009"/>
+            <StringItem index="6" value="2010"/>
+            <StringItem index="7" value="2011"/>
+            <StringItem index="8" value="2012"/>
+            <StringItem index="9" value="2013"/>
+            <StringItem index="10" value="2014"/>
+            <StringItem index="11" value="2015"/>
+            <StringItem index="12" value="2016"/>
+            <StringItem index="13" value="2017"/>
+            <StringItem index="14" value="2018"/>
+            <StringItem index="15" value="2019"/>
+            <StringItem index="16" value="2020"/>
+            <StringItem index="17" value="2021"/>
+          </StringArray>
         </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox4">
+    <Component class="javax.swing.JComboBox" name="comboEndMonth">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
+          <StringArray count="12">
+            <StringItem index="0" value="Enero"/>
+            <StringItem index="1" value="Febrero"/>
+            <StringItem index="2" value="Marzo"/>
+            <StringItem index="3" value="Abril"/>
+            <StringItem index="4" value="Mayo"/>
+            <StringItem index="5" value="Junio"/>
+            <StringItem index="6" value="Julio"/>
+            <StringItem index="7" value="Agosto"/>
+            <StringItem index="8" value="Septiembre"/>
+            <StringItem index="9" value="Octubre"/>
+            <StringItem index="10" value="Noviembre"/>
+            <StringItem index="11" value="Diciembre"/>
+          </StringArray>
         </Property>
       </Properties>
       <AuxValues>
@@ -208,6 +293,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Agregar nuevo"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>
@@ -236,12 +324,11 @@
         <Component class="javax.swing.JTable" name="jtableLoad">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="5" rowCount="0">
+              <Table columnCount="4" rowCount="0">
                 <Column editable="false" title="ID" type="java.lang.String"/>
                 <Column editable="false" title="Tipo" type="java.lang.String"/>
                 <Column editable="false" title="Fecha inicial" type="java.lang.String"/>
                 <Column editable="false" title="Fecha final" type="java.lang.String"/>
-                <Column editable="false" title="#meses" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -256,7 +343,7 @@
         <Property name="text" type="java.lang.String" value="Nombre"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="comboTown1">
+    <Component class="javax.swing.JComboBox" name="comboName">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="3">

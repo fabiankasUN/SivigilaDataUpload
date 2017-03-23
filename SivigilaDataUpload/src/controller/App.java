@@ -5,18 +5,12 @@
  */
 package controller;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.control.ComboBox;
+
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
+
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.table.DefaultTableModel;
@@ -85,6 +79,20 @@ public class App {
         String value = ((ModelDepartment)departments.getSelectedItem()).getValue();
         towns.setModel(new DefaultComboBoxModel(model.getTowns(value).toArray()));
         
+    }
+    
+    
+    public static void addEvents( String name, String type, String startMonth, String startYear, String
+            endMonth, String endYear, DefaultTableModel model ){
+        
+    }
+    
+    public static void showListEvents( DefaultTableModel dataModel ){
+        model.showListEvents(dataModel);
+    }
+    
+    public static void generateSpecificReport( ModelDepartment town, ModelDepartment department, ModelDepartment event, File f ){
+        model.generateSpecificReport(town, department, event, f);
     }
     
     
