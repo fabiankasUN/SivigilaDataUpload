@@ -16,7 +16,9 @@ create table if not exists town (
 	id_department TEXT no null,
 	foreign key(id_department) references department(id),
 	primary key(id,id_department)
-);
+);
+
+
 create table if not exists event (
 	id int primary key not null,
 	name TEXT
@@ -35,22 +37,25 @@ create table if not exists weekdata (
 );
 
 create table if not exists population (
-	id_town  TEXT not null,
-	year_data date not null,
+	id_town  TEXT not null,
+	id_department TEXT not null,
+	year_data int not null,
 	amount int not null,
-	foreign key(id_town) references town(id),
-	primary key(id_town,year_data)
+	foreign key(id_town,id_department) references town(id,id_department)
+	primary key(id_town,id_department,year_data)
 	
 
 );
 create table if not exists climatic_p(
 	id int not null,
-	start_date date not null,
-	end_date date not null,
+	start_month string not null,
+	end_month string not null,
+	start_year int not null,
+	end_year int not null,
 	type TEXT,
 	name TEXT,
 	primary key(id)
 );
 
 --select * from town where id_department = '11'
---select count(*) from weekdata
+select count(*) from weekdata

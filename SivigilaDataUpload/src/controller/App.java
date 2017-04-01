@@ -52,7 +52,18 @@ public class App {
             frame = new MainFrame();
             frame.setVisible(true);
         }
+        
+        loadDepartmentsAndTowns();
+        loadPopulationTowns();
 
+    }
+    
+    public static void loadDepartmentsAndTowns(){
+        model.loadDepartmentsAndTowns();
+    }
+    
+    public static void loadPopulationTowns(){
+        model.loadPopulation();
     }
     
     public static boolean loadData( File f, int year ){
@@ -91,8 +102,20 @@ public class App {
         model.showListEvents(dataModel);
     }
     
-    public static void generateSpecificReport( ModelDepartment town, ModelDepartment department, ModelDepartment event, File f ){
+    public static void generateSpecificReport( ModelDepartment town, ModelDepartment department, ModelDepartment event, String f ){
         model.generateSpecificReport(town, department, event, f);
+    }
+    
+    public static void addFutureEvent( String startMonth, String endMonth, int startYear, int endYear, String name, String type
+    , DefaultTableModel tableModel ){
+        
+        model.addEvent(startMonth, endMonth, startYear, endYear, name, type);
+        model.showListEvents(tableModel);
+    } 
+    
+    public static void deleteFutureEvent( int id, DefaultTableModel tableModel ){
+        model.deleteFutureEvent(id, tableModel );
+        model.showListEvents(tableModel);
     }
     
     

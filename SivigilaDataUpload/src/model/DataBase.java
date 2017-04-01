@@ -108,7 +108,7 @@ public class DataBase {
             connection.commit();
 
         } catch (SQLException ex) {
-            ex.getStackTrace();
+            System.out.println(ex.getMessage());
         }
 
     }

@@ -11,19 +11,25 @@ package model;
  */
 public class Climatic {
     private int id;
-    private String startDate;
-    private String endDate;
+    private String startMonth;
+    private String endMonth;
+    private int startYear;
+    private int endYear;
     private String name;
     private String type;
 
-    public Climatic(int id, String startDate, String endDate, String name, String type) {
+    public Climatic(int id, String startMonth, String endMonth, int startYear, int endYear, String name, String type) {
         this.id = id;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startMonth = startMonth;
+        this.endMonth = endMonth;
+        this.startYear = startYear;
+        this.endYear = endYear;
         this.name = name;
         this.type = type;
     }
 
+    
+    
     public int getId() {
         return id;
     }
@@ -32,20 +38,36 @@ public class Climatic {
         this.id = id;
     }
 
-    public String getStartDate() {
-        return startDate;
+    public String getStartMonth() {
+        return startMonth;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public void setStartMonth(String startMonth) {
+        this.startMonth = startMonth;
     }
 
-    public String getEndDate() {
-        return endDate;
+    public String getEndMonth() {
+        return endMonth;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public void setEndMonth(String endMonth) {
+        this.endMonth = endMonth;
+    }
+
+    public int getStartYear() {
+        return startYear;
+    }
+
+    public void setStartYear(int startYear) {
+        this.startYear = startYear;
+    }
+
+    public int getEndYear() {
+        return endYear;
+    }
+
+    public void setEndYear(int endYear) {
+        this.endYear = endYear;
     }
 
     public String getName() {
@@ -63,6 +85,8 @@ public class Climatic {
     public void setType(String type) {
         this.type = type;
     }
+
+    
 
     
     

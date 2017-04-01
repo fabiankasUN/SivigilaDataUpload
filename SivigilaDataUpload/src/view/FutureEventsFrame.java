@@ -6,6 +6,7 @@
 package view;
 
 import controller.App;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,7 +26,7 @@ public class FutureEventsFrame extends javax.swing.JFrame {
     
      
     public void properties(){
-        BackGround fondo=new BackGround(462, 420, "Fondo4.png", 0, 0);
+        BackGround fondo=new BackGround(560, 430, "Fondo4.png", 0, 0);
         setResizable(false);
         setLocationRelativeTo(null);
         add(fondo);
@@ -110,14 +111,14 @@ public class FutureEventsFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Tipo", "Fecha inicial", "Fecha final"
+                "ID", "Nombre", "Tipo", "Fecha inicial", "Fecha final"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -135,6 +136,11 @@ public class FutureEventsFrame extends javax.swing.JFrame {
         comboName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NIÑO", "NIÑA", "NEUTRO" }));
 
         jButton2.setText("Eliminar existente");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Regresar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -240,8 +246,26 @@ public class FutureEventsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    
+        
+        String startMonth = comboStartMonth.getSelectedItem().toString();
+        String endMonth = comboEndMonth.getSelectedItem().toString();
+        int startYear = Integer.parseInt(comboStartYear.getSelectedItem().toString());
+        int endYear = Integer.parseInt(comboStartYear.getSelectedItem().toString());
+        String name = comboName.getSelectedItem().toString();;
+        String type = comboType.getSelectedItem().toString();;
+        App.addFutureEvent(startMonth, endMonth, startYear, endYear, name, type, (DefaultTableModel)jtableLoad.getModel());
+        
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String val = JOptionPane.showInputDialog("Ingrese el Id del evento que desea eliminar");
+        if( val!= null ){
+            int id = Integer.parseInt(val);
+            App.deleteFutureEvent(id, (DefaultTableModel)jtableLoad.getModel());
+            
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

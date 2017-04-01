@@ -8,6 +8,7 @@ package view;
 import controller.App;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import model.ModelDepartment;
 
@@ -77,6 +78,11 @@ public class GenerateReportsFrame extends javax.swing.JFrame {
         jLabel2.setText("Municipio");
 
         comboTowns.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        comboTowns.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboTownsActionPerformed(evt);
+            }
+        });
 
         jLabel3.setBackground(new java.awt.Color(26, 46, 88));
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
@@ -208,26 +214,30 @@ public class GenerateReportsFrame extends javax.swing.JFrame {
         fileChooser.setFileFilter(new FileFilter() {
             @Override
             public boolean accept(File f) {
-                return f.getName().toUpperCase().equals(".csv");
+                return f.getName().toUpperCase().equals(".xls");
             }
             @Override
             public String getDescription() {
-                return "csv";
+                return "xls";
             }
         });
                 
         int userSelection = fileChooser.showSaveDialog(this);
-
+        
         if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            fileToSave = new File(fileChooser.getSelectedFile() + ".xls");
+            //File fileToSave = fileChooser.getSelectedFile();
+            //fileToSave = new File(fileChooser.getSelectedFile() + ".xls");
             App.generateSpecificReport((ModelDepartment)comboTowns.getSelectedItem(),
                     (ModelDepartment)comboDepartments.getSelectedItem(), (ModelDepartment)ComboEvents.getSelectedItem(),
-                    fileToSave);
-            
+                    fileChooser.getSelectedFile() + ".xls");
+            JOptionPane.showMessageDialog(null, "Reporte generado exitosamente");
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void comboTownsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTownsActionPerformed
+        
+    }//GEN-LAST:event_comboTownsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
