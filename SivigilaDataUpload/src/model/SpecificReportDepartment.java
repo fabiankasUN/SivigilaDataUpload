@@ -29,12 +29,23 @@ import org.apache.poi.ss.util.CellUtil;
  */
 public class SpecificReportDepartment extends Report {
 
+    /**
+     *
+     */
     public static final int months[] = {0, 4, 8, 13, 17, 21, 26, 30, 34, 39, 43, 47, 52};
     private ModelDepartment town;
     private ModelDepartment department;
     private ModelDepartment event;
     private ArrayList<Integer> years;
 
+    /**
+     *
+     * @param db
+     * @param path
+     * @param town
+     * @param department
+     * @param event
+     */
     public SpecificReportDepartment(DataBase db, String path, ModelDepartment town, ModelDepartment department, ModelDepartment event) {
         super(db, path);
         this.town = town;
@@ -42,6 +53,11 @@ public class SpecificReportDepartment extends Report {
         this.event = event;
     }
 
+    /**
+     *
+     * @param years
+     * @return
+     */
     public ArrayList<Integer> years(ResultSet years) {
         ArrayList<Integer> list = new ArrayList<Integer>();
         try {
@@ -54,10 +70,20 @@ public class SpecificReportDepartment extends Report {
         return list;
     }
 
+    /**
+     *
+     * @param town
+     * @param department
+     * @param event
+     * @param f
+     */
     public void generateSpecificReport(ModelDepartment town, ModelDepartment department, ModelDepartment event, String f) {
 
     }
 
+    /**
+     *
+     */
     @Override
     public void generate() {
         try {
@@ -104,11 +130,7 @@ public class SpecificReportDepartment extends Report {
 
                 }
             }
-
-            for (int i = 0; i < columns; i++) {
-                sheet.autoSizeColumn(i);
-            }
-
+            autoSize(sheet, columns);
             while (result.next()) {
                 int week = result.getInt("week");
                 int year = result.getInt("year_data");
@@ -171,6 +193,10 @@ public class SpecificReportDepartment extends Report {
 
     }
 
+    /**
+     *
+     * @param row
+     */
     @Override
     public void firstLine(HSSFRow row) {
         row.createCell(0).setCellValue("Semana Epidemiologica");

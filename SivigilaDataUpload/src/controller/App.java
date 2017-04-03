@@ -106,6 +106,10 @@ public class App {
         model.generateSpecificReport(town, department, event, f);
     }
     
+    public static void generateGeneralReport( ModelDepartment event, String f ){
+        model.generateGeneralReport(event, f);
+    }
+    
     public static void addFutureEvent( String startMonth, String endMonth, int startYear, int endYear, String name, String type
     , DefaultTableModel tableModel ){
         

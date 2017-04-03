@@ -33,10 +33,18 @@ public class Model {
     private DataBase db;
     private Report reporter;
 
+    /**
+     *
+     */
     public Model() {
         db = new DataBase();
     }
 
+    /**
+     *
+     * @param line
+     * @return
+     */
     public int countWeeks(String line) {
         int count = 0;
 
@@ -51,9 +59,12 @@ public class Model {
         return count;
     }
 
+    /**
+     *
+     */
     public void loadPopulation() {
         FileInputStream file = null;
-        String dp="", mp="";
+        String dp = "", mp = "";
         try {
             File f = new File("population.csv");
             file = new FileInputStream(f);
@@ -63,11 +74,11 @@ public class Model {
             PreparedStatement prep = db.statement(prepareUpdate());
             in.readLine();
             in.readLine();
-            
+
             while ((line = in.readLine()) != null) {
                 String split[] = line.split(";");
                 dp = split[0];
-               
+
                 mp = split[2].substring(2, 5);
                 for (int i = 0; i < 16; i++) {
                     prep.setString(1, mp);
@@ -78,22 +89,24 @@ public class Model {
                 }
                 prep.executeBatch();
             }
-            
-             db.getConnection().commit();
+
+            db.getConnection().commit();
         } catch (FileNotFoundException ex) {
             System.out.println("error population" + mp);
             //Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            System.out.println("error population" +mp);
+            System.out.println("error population" + mp);
             //Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             System.out.println("error population" + dp + " " + mp);
             //Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-       
+
     }
 
+    /**
+     *
+     */
     public void loadDepartments() {
         FileInputStream file = null;
         try {
@@ -112,7 +125,7 @@ public class Model {
                 prep.addBatch();
             }
             prep.executeBatch();
-            
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -120,10 +133,12 @@ public class Model {
         } catch (SQLException ex) {
             //Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
     }
 
+    /**
+     *
+     */
     public void loadTown() {
         String idTown = "", id, name;
         String idDep = "";
@@ -165,31 +180,72 @@ public class Model {
         }
     }
 
+    /**
+     *
+     * @param table
+     * @return
+     */
     public String prepareInsertClimatic(String table) {
         String line = "insert  into " + table + "(id,start_month,end_month,start_year,end_year,type,name) values (?,?,?,?,?,?,?)";
         return line;
     }
 
+    /**
+     *
+     * @param table
+     * @return
+     */
     public String prepareInsert(String table) {
         String line = "insert  into " + table + "(id,name) values (?,?)";
         return line;
     }
 
+    /**
+     *
+     * @param table
+     * @return
+     */
     public String prepareInsertTown(String table) {
         String line = "insert  into " + table + "(id,name,id_department) values (?,?,?)";
         return line;
     }
 
+    /**
+     *
+     * @param table
+     * @return
+     */
     public String prepareInsertData(String table) {
         String line = "insert  into " + table + "(week,id_event,id_town,id_department,year_data,amount) values (?,?,?,?,?,?)";
         return line;
     }
 
+    /**
+     *
+     * @param table
+     * @return
+     */
+    public String prepareInsertDataYPerYear() {
+        String line = "insert  into total_per_year (id_event,id_town,id_department,year_data,amount) values (?,?,?,?,?)";
+        return line;
+    }
+
+    /**
+     *
+     * @return
+     */
     public String prepareUpdate() {
         String line = "insert into population (id_town,id_department,year_data,amount) values(?,?,?,?)";
         return line;
     }
 
+    /**
+     *
+     * @param prepTown
+     * @param townId
+     * @param townName
+     * @param departmentCode
+     */
     public void addTown(PreparedStatement prepTown, String townId, String townName, String departmentCode) {
         try {
             prepTown.setString(1, townId);
@@ -205,11 +261,20 @@ public class Model {
         }
     }
 
+    /**
+     *
+     */
     public void loadDepartmentsAndTowns() {
         loadDepartments();
         loadTown();
     }
 
+    /**
+     *
+     * @param f
+     * @param year
+     * @return
+     */
     public boolean loadData(File f, int year) {
 
         String departmentCode = null;
@@ -236,8 +301,11 @@ public class Model {
             PreparedStatement prep = db.statement(prepareInsert("event"));
             PreparedStatement data = db.statement(prepareInsertData("weekdata"));
             PreparedStatement prepTown = db.statement(prepareInsertTown("town"));
-
+            PreparedStatement dataPerYear = db.statement(prepareInsertDataYPerYear());
             db.executeQuery("delete from weekdata where year_data = " + year + "");
+            db.executeQuery("delete from total_per_year where year_data = " + year + "");
+            db.executeQuery("delete from total_per_month where year_data = " + year + "");
+            
             db.getConnection().commit();
             while ((line = in.readLine()) != null) {
                 String split[] = line.split(";");
@@ -279,28 +347,49 @@ public class Model {
                 if (departmentCode.equals("01")) {
                     addTown(prepTown, townCode, townName, departmentCode);
                 }*/
+                int sum = 0;
+                int value;
                 try {
+
                     for (int i = 6; i < weeks + 6; i++) {
+                        value = Integer.parseInt(split[i]);
                         data.setInt(1, i - 5);
                         data.setInt(2, idEvent);
                         data.setString(3, townCode);
                         data.setString(4, departmentCode);
                         data.setInt(5, year);
-                        data.setString(6, split[i]);
+                        data.setInt(6, value);
+                        sum += value;
                         data.addBatch();
                     }
                     data.executeBatch();
+
+                    dataPerYear.setInt(1, idEvent);
+                    dataPerYear.setString(2, townCode);
+                    dataPerYear.setString(3, departmentCode);
+                    dataPerYear.setInt(4, year);
+                    dataPerYear.setInt(5, sum);
+                    dataPerYear.addBatch();
+                    
                 } catch (Exception e) {
                     addTown(prepTown, townCode, townName, departmentCode);
                     for (int i = 6; i < weeks + 6; i++) {
+                        value = Integer.parseInt(split[i]);
                         data.setInt(1, i - 5);
                         data.setInt(2, idEvent);
                         data.setString(3, townCode);
                         data.setString(4, departmentCode);
                         data.setInt(5, year);
-                        data.setString(6, split[i]);
+                        data.setInt(6, value);
+                        sum += value;
                         data.addBatch();
                     }
+                    dataPerYear.setInt(1, idEvent);
+                    dataPerYear.setString(2, townCode);
+                    dataPerYear.setString(3, departmentCode);
+                    dataPerYear.setInt(4, year);
+                    dataPerYear.setInt(5, sum);
+                    dataPerYear.addBatch();
                     data.executeBatch();
                 }
                 c++;
@@ -308,7 +397,7 @@ public class Model {
                     System.out.println(c);
                 }
             }
-
+            dataPerYear.executeBatch();
             //data.executeBatch();
             db.getConnection().commit();
             return true;
@@ -323,6 +412,10 @@ public class Model {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
     public Object[] years() {
         Object data[] = null;
         try {
@@ -342,6 +435,10 @@ public class Model {
         return data;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<ModelDepartment> getDepartments() {
 
         ArrayList<ModelDepartment> list = new ArrayList<ModelDepartment>();
@@ -357,6 +454,11 @@ public class Model {
         return list;
     }
 
+    /**
+     *
+     * @param dep
+     * @return
+     */
     public ArrayList<ModelDepartment> getTowns(String dep) {
         ArrayList<ModelDepartment> list = new ArrayList<ModelDepartment>();
         try {
@@ -372,6 +474,10 @@ public class Model {
         return list;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<ModelDepartment> getEvents() {
         ArrayList<ModelDepartment> list = new ArrayList<ModelDepartment>();
         try {
@@ -386,12 +492,26 @@ public class Model {
         return list;
     }
 
+    /**
+     *
+     * @param tableModel
+     */
     public static void deleteRows(DefaultTableModel tableModel) {
         while (tableModel.getRowCount() > 0) {
             tableModel.removeRow(0);
         }
     }
 
+    /**
+     *
+     * @param startMonth
+     * @param endMonth
+     * @param startYear
+     * @param endYear
+     * @param name
+     * @param type
+     * @return
+     */
     public boolean addEvent(String startMonth, String endMonth, int startYear, int endYear, String name, String type) {
 
         try {
@@ -417,6 +537,10 @@ public class Model {
         return false;
     }
 
+    /**
+     *
+     * @param model
+     */
     public void showListEvents(DefaultTableModel model) {
         ArrayList<Climatic> list = new ArrayList<Climatic>();
         try {
@@ -426,8 +550,8 @@ public class Model {
 
             ResultSet set = db.executeSelect("select * from climatic_p");
             while (set.next()) {
-                list.add(new Climatic(set.getInt(1), set.getString(2).toString(), set.getString(3).toString(), set.getInt(4), set.getInt(5),
-                        set.getString(6).toString(), set.getString(7).toString()));
+                list.add(new Climatic(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getInt(5),
+                        set.getString(6), set.getString(7)));
             }
 
             for (int i = 0; i < list.size(); i++) {
@@ -445,11 +569,33 @@ public class Model {
         }
     }
 
+    /**
+     *
+     * @param town
+     * @param department
+     * @param event
+     * @param f
+     */
     public void generateSpecificReport(ModelDepartment town, ModelDepartment department, ModelDepartment event, String f) {
-        reporter = new SpecificReportDepartment(db, f,town,department, event);
+        reporter = new SpecificReportDepartment(db, f, town, department, event);
         reporter.generate();
     }
 
+    /**
+     *
+     * @param event
+     * @param f
+     */
+    public void generateGeneralReport(ModelDepartment event, String f) {
+        reporter = new GeneralReport(db, f, event);
+        reporter.generate();
+    }
+
+    /**
+     *
+     * @param id
+     * @param model
+     */
     public void deleteFutureEvent(int id, DefaultTableModel model) {
         db.executeQuery("delete from climatic_p where id = " + id);
 

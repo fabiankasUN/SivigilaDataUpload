@@ -24,11 +24,11 @@ public class GenerateReportsFrame extends javax.swing.JFrame {
     public GenerateReportsFrame() {
         initComponents();
         properties();
-        App.fillDepartments( comboDepartments,comboTowns, ComboEvents, comboEventsG);
+        App.fillDepartments(comboDepartments, comboTowns, ComboEvents, comboEventsG);
     }
-    
-    public void properties(){
-        BackGround fondo=new BackGround(359, 367, "Fondo4.png", 0, 0);
+
+    public void properties() {
+        BackGround fondo = new BackGround(359, 367, "Fondo4.png", 0, 0);
         setResizable(false);
         setLocationRelativeTo(null);
         add(fondo);
@@ -111,6 +111,11 @@ public class GenerateReportsFrame extends javax.swing.JFrame {
         jLabel7.setText("Evento");
 
         jButton2.setText("Generar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Regresar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -198,9 +203,9 @@ public class GenerateReportsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void comboDepartmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboDepartmentsActionPerformed
-        
+
         App.fillDepartmentsAndTowns(comboDepartments, comboTowns);
-        
+
     }//GEN-LAST:event_comboDepartmentsActionPerformed
 
     private void ComboEventsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboEventsActionPerformed
@@ -208,36 +213,62 @@ public class GenerateReportsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ComboEventsActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Specify a file to save");   
+        fileChooser.setDialogTitle("Specify a file to save");
         fileChooser.setFileFilter(new FileFilter() {
             @Override
             public boolean accept(File f) {
                 return f.getName().toUpperCase().equals(".xls");
             }
+
             @Override
             public String getDescription() {
                 return "xls";
             }
         });
-                
+
         int userSelection = fileChooser.showSaveDialog(this);
-        
+
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             //File fileToSave = fileChooser.getSelectedFile();
             //fileToSave = new File(fileChooser.getSelectedFile() + ".xls");
-            App.generateSpecificReport((ModelDepartment)comboTowns.getSelectedItem(),
-                    (ModelDepartment)comboDepartments.getSelectedItem(), (ModelDepartment)ComboEvents.getSelectedItem(),
+            App.generateSpecificReport((ModelDepartment) comboTowns.getSelectedItem(),
+                    (ModelDepartment) comboDepartments.getSelectedItem(), (ModelDepartment) ComboEvents.getSelectedItem(),
                     fileChooser.getSelectedFile() + ".xls");
             JOptionPane.showMessageDialog(null, "Reporte generado exitosamente");
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void comboTownsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTownsActionPerformed
-        
+
     }//GEN-LAST:event_comboTownsActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Specify a file to save");
+        fileChooser.setFileFilter(new FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                return f.getName().toUpperCase().equals(".xls");
+            }
+
+            @Override
+            public String getDescription() {
+                return "xls";
+            }
+        });
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            
+            App.generateGeneralReport((ModelDepartment) ComboEvents.getSelectedItem(),
+                    fileChooser.getSelectedFile() + ".xls");
+            JOptionPane.showMessageDialog(null, "Reporte generado exitosamente");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

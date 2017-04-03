@@ -29,6 +29,9 @@ public class DataBase {
 
     private static Connection connection = null;
 
+    /**
+     *
+     */
     public DataBase() {
 
         if (connection == null) {
@@ -54,6 +57,10 @@ public class DataBase {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public Connection getConnection() {
         if (connection != null) {
             return connection;
@@ -91,6 +98,11 @@ public class DataBase {
         }
     }
 
+    /**
+     *
+     * @param sql
+     * @return
+     */
     public PreparedStatement statement(String sql) {
         PreparedStatement statement = null;
         try {
@@ -101,6 +113,10 @@ public class DataBase {
         return statement;
     }
 
+    /**
+     *
+     * @param sql
+     */
     public void executeQuery(String sql) {
         try {
             Statement sta = connection.createStatement();
@@ -113,6 +129,11 @@ public class DataBase {
 
     }
 
+    /**
+     *
+     * @param sql
+     * @return
+     */
     public ResultSet executeSelect(String sql) {
         try {
             Statement st = connection.createStatement();

@@ -5,11 +5,15 @@
  */
 package controller;
 
+import model.Climatic;
+
 /**
  *
  * @author Fabian
  */
 public class Test {
     
-    
+    public static void main( String args[]){
+        System.out.println(Climatic.Month.valueOf("FEBRERO").index);
+    }
 }
