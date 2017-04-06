@@ -46,11 +46,12 @@ create table if not exists population (
 	primary key(id_town,id_department,year_data)
 	
 
-);
+);
+
 create table if not exists climatic_p(
 	id int not null,
-	start_month string not null,
-	end_month string not null,
+	start_month int not null,
+	end_month int not null,
 	start_year int not null,
 	end_year int not null,
 	type TEXT,
@@ -81,6 +82,19 @@ create table if not exists total_per_month(
 	foreign key(id_town,id_department) references town(id,id_department)
 );
 
+CREATE INDEX if not exists index_town_month
+ON total_per_month (id_town,id_department,id_event);
+
+CREATE INDEX if not exists index_population
+ON population (id_town,id_department);
+
+CREATE INDEX if not exists index_town_year
+ON total_per_year (id_town,id_department,id_event);
+
+CREATE INDEX if not exists index_week_data
+ON weekdata (id_event,year_data);
+
 
 --select * from town where id_department = '11'
-select count(*) from weekdata
+select count(*) from weekdata
+select count(*) from total_per_month

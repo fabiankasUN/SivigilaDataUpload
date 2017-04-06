@@ -32,6 +32,7 @@ public class Model {
 
     private DataBase db;
     private Report reporter;
+    public static final int months[] = {0, 4, 8, 13, 17, 21, 26, 30, 34, 39, 43, 47, 52};
 
     /**
      *
@@ -232,6 +233,16 @@ public class Model {
 
     /**
      *
+     * @param table
+     * @return
+     */
+    public String prepareInsertDataYPerMonth() {
+        String line = "insert  into total_per_month (id_month,id_event,id_town,id_department,year_data,amount) values (?,?,?,?,?,?)";
+        return line;
+    }
+
+    /**
+     *
      * @return
      */
     public String prepareUpdate() {
@@ -302,10 +313,11 @@ public class Model {
             PreparedStatement data = db.statement(prepareInsertData("weekdata"));
             PreparedStatement prepTown = db.statement(prepareInsertTown("town"));
             PreparedStatement dataPerYear = db.statement(prepareInsertDataYPerYear());
+            PreparedStatement dataPerMonth = db.statement(prepareInsertDataYPerMonth());
             db.executeQuery("delete from weekdata where year_data = " + year + "");
             db.executeQuery("delete from total_per_year where year_data = " + year + "");
             db.executeQuery("delete from total_per_month where year_data = " + year + "");
-            
+
             db.getConnection().commit();
             while ((line = in.readLine()) != null) {
                 String split[] = line.split(";");
@@ -331,24 +343,12 @@ public class Model {
                     departmentCode = split[2].substring(0, 2);
                     departmentName = split[3];
                 }
-
                 townCode = split[4];
                 townName = split[5];
-                /*addTown(prepTown, townCode, townName, departmentCode);
-                if (townCode.equals("000")) {
-                    addTown(prepTown, "000", townName, departmentCode);
-                }
-                if (townCode.equals("001")) {
-                    addTown(prepTown, "001", departmentName, departmentCode);
-                }
-                if (departmentCode.equals("11")) {
-                    addTown(prepTown, townCode, townName, departmentCode);
-                }
-                if (departmentCode.equals("01")) {
-                    addTown(prepTown, townCode, townName, departmentCode);
-                }*/
+
                 int sum = 0;
                 int value;
+                int count = 1;
                 try {
 
                     for (int i = 6; i < weeks + 6; i++) {
@@ -361,6 +361,19 @@ public class Model {
                         data.setInt(6, value);
                         sum += value;
                         data.addBatch();
+                        if ((count < months.length && months[count] == i - 5) || i - 5 == 33) {
+                            if (months[count] == 52 && weeks == 53) {
+                                continue;
+                            }
+                            dataPerMonth.setInt(1, count);
+                            dataPerMonth.setInt(2, idEvent);
+                            dataPerMonth.setString(3, townCode);
+                            dataPerMonth.setString(4, departmentCode);
+                            dataPerMonth.setInt(5, year);
+                            dataPerMonth.setInt(6, sum);
+                            dataPerMonth.addBatch();
+                            count++;
+                        }
                     }
                     data.executeBatch();
 
@@ -370,7 +383,7 @@ public class Model {
                     dataPerYear.setInt(4, year);
                     dataPerYear.setInt(5, sum);
                     dataPerYear.addBatch();
-                    
+
                 } catch (Exception e) {
                     addTown(prepTown, townCode, townName, departmentCode);
                     for (int i = 6; i < weeks + 6; i++) {
@@ -382,6 +395,19 @@ public class Model {
                         data.setInt(5, year);
                         data.setInt(6, value);
                         sum += value;
+                        if ((count < months.length && months[count] == i - 5) || i - 5 == 33) {
+                            if (count < months.length && months[count] == 52 && weeks == 53) {
+                                continue;
+                            }
+                            dataPerMonth.setInt(1, count);
+                            dataPerMonth.setInt(2, idEvent);
+                            dataPerMonth.setString(3, townCode);
+                            dataPerMonth.setString(4, departmentCode);
+                            dataPerMonth.setInt(5, year);
+                            dataPerMonth.setInt(6, sum);
+                            dataPerMonth.addBatch();
+                            count++;
+                        }
                         data.addBatch();
                     }
                     dataPerYear.setInt(1, idEvent);
@@ -398,6 +424,7 @@ public class Model {
                 }
             }
             dataPerYear.executeBatch();
+            dataPerMonth.executeBatch();
             //data.executeBatch();
             db.getConnection().commit();
             return true;
@@ -519,8 +546,8 @@ public class Model {
 
             PreparedStatement prep = db.statement(prepareInsertClimatic("climatic_p"));
             prep.setInt(1, rMax.getInt(1) + 1);
-            prep.setString(2, startMonth);
-            prep.setString(3, endMonth);
+            prep.setInt(2, Climatic.Month.valueOf(startMonth).index );
+            prep.setInt(3, Climatic.Month.valueOf(endMonth).index);
             prep.setInt(4, startYear);
             prep.setInt(5, endYear);
             prep.setString(6, type);
@@ -550,7 +577,7 @@ public class Model {
 
             ResultSet set = db.executeSelect("select * from climatic_p");
             while (set.next()) {
-                list.add(new Climatic(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getInt(5),
+                list.add(new Climatic(set.getInt(1), set.getInt(2), set.getInt(3), set.getInt(4), set.getInt(5),
                         set.getString(6), set.getString(7)));
             }
 
@@ -587,7 +614,10 @@ public class Model {
      * @param f
      */
     public void generateGeneralReport(ModelDepartment event, String f) {
+        if(reporter == null || !(reporter instanceof GeneralReport))
         reporter = new GeneralReport(db, f, event);
+        else
+            ((GeneralReport)reporter).setData(f, event);
         reporter.generate();
     }
 

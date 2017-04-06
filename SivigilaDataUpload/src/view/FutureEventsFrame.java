@@ -250,7 +250,7 @@ public class FutureEventsFrame extends javax.swing.JFrame {
         String startMonth = comboStartMonth.getSelectedItem().toString();
         String endMonth = comboEndMonth.getSelectedItem().toString();
         int startYear = Integer.parseInt(comboStartYear.getSelectedItem().toString());
-        int endYear = Integer.parseInt(comboStartYear.getSelectedItem().toString());
+        int endYear = Integer.parseInt(comboEndYear.getSelectedItem().toString());
         String name = comboName.getSelectedItem().toString();;
         String type = comboType.getSelectedItem().toString();;
         App.addFutureEvent(startMonth, endMonth, startYear, endYear, name, type, (DefaultTableModel)jtableLoad.getModel());

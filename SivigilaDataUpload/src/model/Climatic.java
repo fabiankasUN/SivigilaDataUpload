@@ -19,11 +19,56 @@ public class Climatic implements Comparable<Climatic> {
         Month(int index) {
             this.index = index;
         }
+
+        public int getIndex() {
+            return index;
+        }
+
+        public static String getMonth(int j) {
+            if (j == 1) {
+                return Enero.name();
+            }
+            if (j == 2) {
+                return Febrero.name();
+            }
+            if (j == 3) {
+                return Marzo.name();
+            }
+            if (j == 4) {
+                return Abril.name();
+            }
+            if (j == 5) {
+                return Mayo.name();
+            }
+            if (j == 6) {
+                return Junio.name();
+            }
+            if (j == 7) {
+                return Julio.name();
+            }
+            if (j == 8) {
+                return Agosto.name();
+            }
+            if (j == 9) {
+                return Septiembre.name();
+            }
+            if (j == 10) {
+                return Octubre.name();
+            }
+            if (j == 11) {
+                return Noviembre.name();
+            }
+            if (j == 12) {
+                return Diciembre.name();
+            }
+            return null;
+        }
+
     }
 
     private int id;
-    private String startMonth;
-    private String endMonth;
+    private int startMonth;
+    private int endMonth;
     private int startYear;
     private int endYear;
     private String name;
@@ -39,7 +84,7 @@ public class Climatic implements Comparable<Climatic> {
      * @param name
      * @param type
      */
-    public Climatic(int id, String startMonth, String endMonth, int startYear, int endYear, String name, String type) {
+    public Climatic(int id, int startMonth, int endMonth, int startYear, int endYear, String name, String type) {
         this.id = id;
         this.startMonth = startMonth;
         this.endMonth = endMonth;
@@ -70,7 +115,7 @@ public class Climatic implements Comparable<Climatic> {
      *
      * @return
      */
-    public String getStartMonth() {
+    public int getStartMonth() {
         return startMonth;
     }
 
@@ -78,7 +123,7 @@ public class Climatic implements Comparable<Climatic> {
      *
      * @param startMonth
      */
-    public void setStartMonth(String startMonth) {
+    public void setStartMonth(int startMonth) {
         this.startMonth = startMonth;
     }
 
@@ -86,7 +131,7 @@ public class Climatic implements Comparable<Climatic> {
      *
      * @return
      */
-    public String getEndMonth() {
+    public int getEndMonth() {
         return endMonth;
     }
 
@@ -94,7 +139,7 @@ public class Climatic implements Comparable<Climatic> {
      *
      * @param endMonth
      */
-    public void setEndMonth(String endMonth) {
+    public void setEndMonth(int endMonth) {
         this.endMonth = endMonth;
     }
 
@@ -176,16 +221,16 @@ public class Climatic implements Comparable<Climatic> {
         if (endYear > o.endYear) {
             return 1;
         }
-        if (Month.valueOf(startMonth).index < Month.valueOf(o.startMonth).index) {
+        if (startMonth < o.startMonth) {
             return -1;
         }
-        if (Month.valueOf(startMonth).index > Month.valueOf(o.startMonth).index) {
+        if (startMonth > o.startMonth) {
             return 1;
         }
-        if (Month.valueOf(endMonth).index < Month.valueOf(o.endMonth).index) {
+        if (endMonth < o.endMonth) {
             return -1;
         }
-        if (Month.valueOf(endMonth).index > Month.valueOf(o.endMonth).index) {
+        if (endMonth > o.endMonth) {
             return 1;
         }
         return id - o.id;
