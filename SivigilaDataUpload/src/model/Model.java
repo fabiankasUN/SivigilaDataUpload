@@ -349,6 +349,7 @@ public class Model {
                 int sum = 0;
                 int value;
                 int count = 1;
+                int sumMonth = 0;
                 try {
 
                     for (int i = 6; i < weeks + 6; i++) {
@@ -360,6 +361,7 @@ public class Model {
                         data.setInt(5, year);
                         data.setInt(6, value);
                         sum += value;
+                        sumMonth += value;
                         data.addBatch();
                         if ((count < months.length && months[count] == i - 5) || i - 5 == 33) {
                             if (months[count] == 52 && weeks == 53) {
@@ -370,9 +372,10 @@ public class Model {
                             dataPerMonth.setString(3, townCode);
                             dataPerMonth.setString(4, departmentCode);
                             dataPerMonth.setInt(5, year);
-                            dataPerMonth.setInt(6, sum);
+                            dataPerMonth.setInt(6, sumMonth);
                             dataPerMonth.addBatch();
                             count++;
+                            sumMonth = 0;
                         }
                     }
                     data.executeBatch();
@@ -386,6 +389,7 @@ public class Model {
 
                 } catch (Exception e) {
                     addTown(prepTown, townCode, townName, departmentCode);
+                    sumMonth = 0;
                     for (int i = 6; i < weeks + 6; i++) {
                         value = Integer.parseInt(split[i]);
                         data.setInt(1, i - 5);
@@ -395,8 +399,9 @@ public class Model {
                         data.setInt(5, year);
                         data.setInt(6, value);
                         sum += value;
+                        sumMonth += value;
                         if ((count < months.length && months[count] == i - 5) || i - 5 == 33) {
-                            if (count < months.length && months[count] == 52 && weeks == 53) {
+                            if (months[count] == 52 && weeks == 53) {
                                 continue;
                             }
                             dataPerMonth.setInt(1, count);
@@ -404,9 +409,10 @@ public class Model {
                             dataPerMonth.setString(3, townCode);
                             dataPerMonth.setString(4, departmentCode);
                             dataPerMonth.setInt(5, year);
-                            dataPerMonth.setInt(6, sum);
+                            dataPerMonth.setInt(6, sumMonth);
                             dataPerMonth.addBatch();
                             count++;
+                            sumMonth = 0;
                         }
                         data.addBatch();
                     }
@@ -546,7 +552,7 @@ public class Model {
 
             PreparedStatement prep = db.statement(prepareInsertClimatic("climatic_p"));
             prep.setInt(1, rMax.getInt(1) + 1);
-            prep.setInt(2, Climatic.Month.valueOf(startMonth).index );
+            prep.setInt(2, Climatic.Month.valueOf(startMonth).index);
             prep.setInt(3, Climatic.Month.valueOf(endMonth).index);
             prep.setInt(4, startYear);
             prep.setInt(5, endYear);
@@ -614,10 +620,11 @@ public class Model {
      * @param f
      */
     public void generateGeneralReport(ModelDepartment event, String f) {
-        if(reporter == null || !(reporter instanceof GeneralReport))
-        reporter = new GeneralReport(db, f, event);
-        else
-            ((GeneralReport)reporter).setData(f, event);
+        if (reporter == null || !(reporter instanceof GeneralReport)) {
+            reporter = new GeneralReport(db, f, event);
+        } else {
+            ((GeneralReport) reporter).setData(f, event);
+        }
         reporter.generate();
     }
 

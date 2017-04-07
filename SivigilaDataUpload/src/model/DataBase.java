@@ -86,8 +86,9 @@ public class DataBase {
             try {
                 BufferedReader r = new BufferedReader(new FileReader(new File("script.txt")));
                 while ((line = r.readLine()) != null) {
-                    data += line;
+                    data += line+ "\n";
                 }
+                System.out.println(data);
                  statement.executeUpdate(data);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);

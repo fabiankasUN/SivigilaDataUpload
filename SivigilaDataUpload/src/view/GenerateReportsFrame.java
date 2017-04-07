@@ -264,7 +264,7 @@ public class GenerateReportsFrame extends javax.swing.JFrame {
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             
-            App.generateGeneralReport((ModelDepartment) ComboEvents.getSelectedItem(),
+            App.generateGeneralReport((ModelDepartment) comboEventsG.getSelectedItem(),
                     fileChooser.getSelectedFile() + ".xls");
             JOptionPane.showMessageDialog(null, "Reporte generado exitosamente");
         }
