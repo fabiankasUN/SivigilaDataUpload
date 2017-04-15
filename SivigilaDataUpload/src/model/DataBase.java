@@ -84,7 +84,7 @@ public class DataBase {
             String line = "";
             String data = "";
             try {
-                BufferedReader r = new BufferedReader(new FileReader(new File("script.txt")));
+                BufferedReader r = new BufferedReader(new FileReader(new File("data/script.txt")));
                 while ((line = r.readLine()) != null) {
                     data += line+ "\n";
                 }

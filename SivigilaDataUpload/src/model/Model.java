@@ -11,7 +11,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +19,6 @@ import java.util.Collections;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import view.MainFrame;
 
@@ -64,11 +62,10 @@ public class Model {
      *
      */
     public void loadPopulation() {
-        FileInputStream file = null;
         String dp = "", mp = "";
         try {
-            File f = new File("population.csv");
-            file = new FileInputStream(f);
+            File f = new File("data/population.csv");
+
             BufferedReader in = new BufferedReader(new FileReader(f));
             String line;
             in.readLine();
@@ -111,7 +108,7 @@ public class Model {
     public void loadDepartments() {
         FileInputStream file = null;
         try {
-            File f = new File("dep.csv");
+            File f = new File("data/dep.csv");
             file = new FileInputStream(f);
             BufferedReader in = new BufferedReader(new FileReader(f));
             String line;
@@ -144,7 +141,7 @@ public class Model {
         String idTown = "", id, name;
         String idDep = "";
         try {
-            File f = new File("departments.csv");
+            File f = new File("data/departments.csv");
             BufferedReader in = new BufferedReader(new FileReader(f));
 
             String line;
@@ -308,6 +305,7 @@ public class Model {
                     break;
                 }
             }
+               System.out.println(weeks);
 
             PreparedStatement prep = db.statement(prepareInsert("event"));
             PreparedStatement data = db.statement(prepareInsertData("weekdata"));
@@ -363,7 +361,7 @@ public class Model {
                         sum += value;
                         sumMonth += value;
                         data.addBatch();
-                        if ((count < months.length && months[count] == i - 5) || i - 5 == 33) {
+                        if ((count < months.length && months[count] == i - 5) || i - 5 == 53) {
                             if (months[count] == 52 && weeks == 53) {
                                 continue;
                             }
@@ -400,10 +398,11 @@ public class Model {
                         data.setInt(6, value);
                         sum += value;
                         sumMonth += value;
-                        if ((count < months.length && months[count] == i - 5) || i - 5 == 33) {
-                            if (months[count] == 52 && weeks == 53) {
+                        if ((count < months.length && months[count] == i - 5) || i - 5 == 53) {
+                            if (count < months.length && months[count] == 52 && weeks == 53) {
                                 continue;
                             }
+                         
                             dataPerMonth.setInt(1, count);
                             dataPerMonth.setInt(2, idEvent);
                             dataPerMonth.setString(3, townCode);
