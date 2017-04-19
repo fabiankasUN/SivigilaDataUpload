@@ -262,82 +262,10 @@ public class GeneralReport extends Report {
         return list;
     }
 
-    /*public void fillEvents(ArrayList<Climatic> list) {
-
-        int matrix[][] = new int[13][maxYear - minYear + 1];
-        int c = 0;
-        int p = 0;
-        for (Climatic climatic : list) {
-            //if (climatic.getId() == 7) {
-
-            int id = 1;
-            for (ModelTown town : towns) {
-
-                ResultSet set = db.executeSelect("select * from total_per_Month where id_town = '" + town.getId() + "'"
-                        + " and id_department = '" + town.getId_department() + "' and id_event = " + event.getValue()
-                        + " order by id_month,year_data");
-
-                try {
-
-                    for (int i = 0; i < matrix.length; i++) {
-                        matrix[i] = new int[maxYear - minYear + 1];
-                    }
-
-                    while (set.next()) {
-                        matrix[set.getInt(1)][set.getInt(5) - minYear] = set.getInt(6);
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(GeneralReport.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                HSSFWorkbook test = new HSSFWorkbook();
-                FormulaEvaluator eval = test.getCreationHelper().createFormulaEvaluator();
-                HSSFSheet sheet = test.createSheet("test");
-
-                int index = matrix[0].length;
-                for (int j = 1; j < matrix.length; j++) {
-                    sheet.createRow(j - 1);
-                    for (int k = 0; k < matrix[j].length; k++) {
-                        sheet.getRow(j - 1).createCell(k).setCellValue(matrix[j][k]);
-                    }
-                    sheet.getRow(j - 1).createCell(index).setCellType(CellType.FORMULA);
-                    sheet.getRow(j - 1).createCell(index + 1).setCellType(CellType.FORMULA);
-                    sheet.getRow(j - 1).createCell(index + 2).setCellType(CellType.FORMULA);
-                    String next = nextColumn("A", maxYear - minYear);
-
-                    sheet.getRow(j - 1).getCell(index).setCellFormula("MEDIAN(A" + (j) + ":" + next + "" + (j) + ")");
-                    sheet.getRow(j - 1).getCell(index + 1).setCellFormula("PERCENTILE(A" + (j) + ":" + next + "" + (j) + ",0.25)");
-                    sheet.getRow(j - 1).getCell(index + 2).setCellFormula("PERCENTILE(A" + (j) + ":" + next + "" + (j) + ",0.75)");
-                    next = "A";
-                    for (int k = 0; k < matrix[j].length; k++) {
-                        sheet.getRow(j - 1).createCell(index + 2 + k + 1).setCellFormula("IF(" + next + "" + (j) + ">" + nextColumn("A", index + 2) + "" + (j) + ",1,0)");
-                        next = nextColumn(next, 1);
-                    }
-                }
-                eval.clearAllCachedResultValues();
-                eval.evaluateAll();
-                int sum = 0;
-                for (int j = 1; j < matrix.length; j++) {
-                    for (int k = index + 3; k < index + 3 + matrix[j].length; k++) {
-                        CellValue x = eval.evaluate(sheet.getRow(j - 1).getCell(k));
-                        int y = (k - index + 3) + minYear;
-                        if (isValid(climatic, y, j)) {
-                            sum += x.getNumberValue();
-                        }
-                    }
-                    createCell(sheet.getRow(j - 1), sum + "");
-                }
-
-                createCellNumber(sheets[0].getRow(id), sum, lastTotalYear + c);
-                id++;
-            }
-            //}
-            c++;
-        }
-    }*/
     public void fillEvents(ArrayList<Climatic> list) {
 
         int matrix[][] = new int[13][maxYear - minYear + 1];
+        HashSet<Integer> discarted = new HashSet<Integer>();
         int c = 0;
         int id = 1;
         for (ModelTown town : towns) {
@@ -368,6 +296,44 @@ public class GeneralReport extends Report {
                 for (int k = 0; k < matrix[j].length; k++) {
                     sheet.getRow(j - 1).createCell(k).setCellValue(matrix[j][k]);
                 }
+            }
+
+            discarted = new HashSet<>();
+            /*
+                acum
+             */
+            HSSFRow last = sheet.createRow(13);
+            String col = "A";
+            for (int i = 0; i < matrix[0].length; i++) {
+                last.createCell(i);
+                last.getCell(i).setCellFormula("SUM(" + col + "1" + ":" + col + "12" + ")");
+                col = nextColumn(col);
+            }
+
+            last.createCell(matrix[0].length).setCellFormula("median(A" + (14) + ":" + nextColumn("A", matrix[0].length - 1) + "" + (14) + ")");
+            last.createCell(matrix[0].length + 1).setCellFormula("PERCENTILE(A" + (14) + ":" + nextColumn("A", matrix[0].length - 1) + "" + (14) + ",0.25)");
+            last.createCell(matrix[0].length + 2).setCellFormula("PERCENTILE(A" + (14) + ":" + nextColumn("A", matrix[0].length - 1) + "" + (14) + ",0.75)");
+
+            last.createCell(matrix[0].length + 4).setCellFormula(nextColumn("A", matrix[0].length + 2) + (14) + "-" + nextColumn("A", matrix[0].length + 1) + (14));
+            last.createCell(matrix[0].length + 5).setCellFormula("(" + nextColumn("A", matrix[0].length + 4) + (14) + "*3)+" + nextColumn("A", matrix[0].length + 2) + (14));
+
+            col = "A";
+            double value;
+            String v = nextColumn("A", matrix[0].length + 6 - 1);
+            for (int j = 0; j < matrix[0].length; j++) {
+                last.createCell(matrix[0].length + 7 + j).setCellFormula("IF(" + col + "" + (14) + ">" + v + "" + (14) + ",1,0)");
+                value = eval.evaluate(last.getCell(matrix[0].length + 7 + j)).getNumberValue();
+                col = nextColumn(col);
+                if (value == 1) {
+                    discarted.add(j);
+                }
+            }
+
+            /**
+             * Acum
+             *
+             */
+            for (int j = 1; j < matrix.length; j++) {
                 sheet.getRow(j - 1).createCell(index).setCellType(CellType.FORMULA);
                 sheet.getRow(j - 1).createCell(index + 1).setCellType(CellType.FORMULA);
                 sheet.getRow(j - 1).createCell(index + 2).setCellType(CellType.FORMULA);
@@ -375,7 +341,20 @@ public class GeneralReport extends Report {
 
                 sheet.getRow(j - 1).getCell(index).setCellFormula("MEDIAN(A" + (j) + ":" + next + "" + (j) + ")");
                 sheet.getRow(j - 1).getCell(index + 1).setCellFormula("PERCENTILE(A" + (j) + ":" + next + "" + (j) + ",0.25)");
-                sheet.getRow(j - 1).getCell(index + 2).setCellFormula("PERCENTILE(A" + (j) + ":" + next + "" + (j) + ",0.75)");
+                String percentile = "";
+                String initAddress = "A";
+                for (int k = 0; k < matrix[0].length; k++) {
+                    if (!discarted.contains(k)) {
+                        if (!percentile.equals("")) {
+                            percentile += ":";
+                        }
+                        percentile += initAddress + (j) + ":" + initAddress + (j);
+                    }
+                    initAddress = nextColumn(initAddress);
+                }
+                //System.out.println("PERCENTILE(" + percentile + ",0.75)");
+                sheet.getRow(j - 1).getCell(index + 2).setCellFormula("PERCENTILE(" + percentile + ",0.75)");
+                eval.evaluateInCell(last.getCell(matrix[0].length + 7 + j));
                 next = "A";
                 for (int k = 0; k < matrix[j].length; k++) {
                     sheet.getRow(j - 1).createCell(index + 2 + k + 1).setCellFormula("IF(" + next + "" + (j) + ">" + nextColumn("A", index + 2) + "" + (j) + ",1,0)");
@@ -384,6 +363,7 @@ public class GeneralReport extends Report {
             }
             eval.clearAllCachedResultValues();
             eval.evaluateAll();
+
             int sum = 0;
             /*
             for (int j = 1; j < matrix.length; j++) {
@@ -402,7 +382,7 @@ public class GeneralReport extends Report {
                         int y = (k - (index + 3)) + minYear;
                         if (isValid(climatic, y, j)) {
                             sum += sheet.getRow(j - 1).getCell(k).getNumericCellValue();
-                            sumTotal += sheet.getRow(j - 1).getCell(k - (index+3)).getNumericCellValue();
+                            sumTotal += sheet.getRow(j - 1).getCell(k - (index + 3)).getNumericCellValue();
                         }
                     }
                 }
@@ -417,6 +397,7 @@ public class GeneralReport extends Report {
                 }
             }
 
+            //save(test);
             id++;
         }
     }

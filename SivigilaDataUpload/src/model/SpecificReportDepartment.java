@@ -137,7 +137,6 @@ public class SpecificReportDepartment extends Report {
             for (int i = 1; i <= maxWeek; i++) {
                 HSSFRow a = sheet.getRow(i);
                 a.getCell(1 + numberYears).setCellType(CellType.FORMULA);
-                //System.out.println("median(B"+ (i+1) + ":" + (char)('B'+years-1)+ ""+(i+1) +  ")");
                 String next = nextColumn("B", numberYears - 1);
                 a.getCell(1 + numberYears).setCellFormula("median(B" + (i + 1) + ":" + next + "" + (i + 1) + ")");
                 a.getCell(2 + numberYears).setCellFormula("PERCENTILE(B" + (i + 1) + ":" + next + "" + (i + 1) + ",0.25)");

@@ -180,6 +180,24 @@ public abstract class Report {
         }
 
     }
+    
+    public void save( HSSFWorkbook workbook ) {
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(path);
+            workbook.write(out);
+            out.close();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Report.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
+        } catch (IOException ex) {
+            Logger.getLogger(Report.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     /**
      *
