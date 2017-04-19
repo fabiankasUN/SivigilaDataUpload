@@ -17,10 +17,8 @@ import java.util.logging.Logger;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.util.CellUtil;
 
 /**
@@ -68,17 +66,6 @@ public class SpecificReportDepartment extends Report {
             Logger.getLogger(SpecificReportDepartment.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
-    }
-
-    /**
-     *
-     * @param town
-     * @param department
-     * @param event
-     * @param f
-     */
-    public void generateSpecificReport(ModelDepartment town, ModelDepartment department, ModelDepartment event, String f) {
-
     }
 
     /**
