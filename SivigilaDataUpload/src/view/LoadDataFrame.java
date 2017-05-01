@@ -180,7 +180,7 @@ public class LoadDataFrame extends javax.swing.JFrame {
             ImageIcon image = new ImageIcon(url);
             int res = JOptionPane.showConfirmDialog(null, "Esta seguro que desea cargar el archivo del"
                     + "año " + comboYear.getSelectedItem().toString() + "? tenga en cuenta lo siguiente"
-                    + "\n1. Recuerde que el formato debe ser CSV( separado por ';').\n2.Si"
+                    + "\n1. Recuerde que el formato debe ser CSV.\n2.Si"
                     + " existen datos del año " + comboYear.getSelectedItem().toString() + " seran borrados","Informacion"
             ,JOptionPane.YES_NO_OPTION,JOptionPane.INFORMATION_MESSAGE);
             if (res == JOptionPane.OK_OPTION) {

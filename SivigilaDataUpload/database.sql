@@ -97,5 +97,11 @@ ON weekdata (id_event,year_data);
 
 --select * from town where id_department = '11'
 select count(*) from weekdata
-select count(*) from total_per_month
+select count(*) from total_per_month
 
+delete from weekdata
+delete from population
+delete from total_per_month
+delete from total_per_year
+delete from town
+delete from department
